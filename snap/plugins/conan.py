@@ -93,12 +93,10 @@ class ConanPlugin(snapcraft.BasePlugin):
 			self.run(new_profile_command)
 		update_profile_command = ["conan", "profile", "update"]
 		update_compiler = update_profile_command + ["settings.compiler=gcc", self._target]
-#		update_compiler_version = update_profile_command + ["settings.compiler.version=7", self._target]
 		update_arch = update_profile_command + ["settings.arch={}".format(self._target), self._target]
 		update_CFLAG = update_profile_command + ["env.CFLAG=\"-arch {}\"".format(self._target), self._target]
 		update_CXXFLAG = update_profile_command + ["env.CXXFLAG=\"-arch {}\"".format(self._target), self._target]
 		self.run(update_compiler)
-#		self.run(update_compiler_version)
 		self.run(update_arch)
 		self.run(update_CFLAG)
 		self.run(update_CXXFLAG)
@@ -135,7 +133,6 @@ class ConanPlugin(snapcraft.BasePlugin):
 		super().build()
 
 		os.chdir(self.builddir)
-		print("build:",self.builddir)
 		libdir = os.path.abspath(os.path.join(self.builddir, 'lib'))
 		bindir = os.path.abspath(os.path.join(self.builddir, 'bin'))
 		install_command = ['conan', 'install', os.path.abspath(os.path.join(self.builddir, os.pardir, 'src'))]
@@ -149,10 +146,9 @@ class ConanPlugin(snapcraft.BasePlugin):
 			self._update_conan_profile()
 			install_command.append("--profile")
 			install_command.append(self._target)
-#			update_profile_arch_command = update_profile_command + ['settings.arch={}'.format(self._target)]
 
 		self.run(install_command, env=self._build_env())
-		self.run(build_command) # Unfortanly I couldn't find any -j flag for the build commands
+		self.run(build_command)
 		for dir in ['bin', 'lib']:
 			build_path = os.path.join(self.builddir, dir)
 			if os.path.exists(build_path):
