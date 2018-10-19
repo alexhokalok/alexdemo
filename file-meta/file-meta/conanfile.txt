@@ -1,0 +1,19 @@
+[requires]
+gflags/2.2.1@bincrafters/stable
+OpenSSL/1.1.0i@conan/stable
+boost/1.68.0@conan/stable
+
+[generators]
+cmake
+
+[options]
+gflags:shared=False
+OpenSSL:shared=False
+boost:shared=False
+
+[imports]
+lib, *.a -> lib
+lib, *.lib -> lib
+lib, *.dylib -> lib
+lib, *.so -> lib
+lib, *.dll -> lib

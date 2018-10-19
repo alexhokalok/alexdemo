@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cat << GREET
+congrats! You've just installed alexdemo snap.
+alex@roborock"
+GREET
+

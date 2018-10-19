@@ -1,0 +1,11 @@
+#!/bin/sh
+
+hcounter="$(snapctl get hcounter)"
+
+if [ -z "$hcounter" ]; then
+    snapctl set hcounter=0
+    hcounter="$(snapctl get hcounter)"
+fi
+
+
+echo "my-hcounter: $hcounter" > $SNAP_DATA/counters

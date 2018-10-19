@@ -1,0 +1,9 @@
+#!/bin/sh
+
+hcounter="$(snapctl get hcounter)"
+
+if [ -z "$hcounter" ]; then
+    snapctl set hcounter=1
+else
+    snapctl set hcounter=$(( $hcounter + 1 ))
+fi
