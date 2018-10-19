@@ -39,6 +39,7 @@ import shutil
 import logging
 
 import snapcraft
+
 #from snapcraft.plugins import PythonPlugin # the python plugin could be extended, but this is much easier..
 
 logger = logging.getLogger(__name__)
@@ -62,18 +63,18 @@ class ConanPlugin(snapcraft.BasePlugin):
 
 		return schema
 
+	@property
+	def plugin_build_packages(self):
+		return [
+			"python-dev",
+			"python-pip",
+			"python-pkg-resources",
+			"python-setuptools",
+		]
+
 	def __init__(self, name, options, project):
 		super().__init__(name, options, project)
-		self.build_packages.extend([
-			'python-dev',
-			'python-pip',
-			'python-pkg-resources',
-			'python-setuptools',
-		])
-
-
-		conan_command = ['pip', 'install', 'conan']
-		self.run(conan_command)
+		self.build_packages.extend(self.plugin_build_packages)
 
 		if options.missing:
 			self.install_missing = True
@@ -82,6 +83,7 @@ class ConanPlugin(snapcraft.BasePlugin):
 
 	def pull(self):
 		super().pull()
+
 
 	def _update_conan_profile(self):
 		conan_profile_path = os.path.join(os.path.expanduser("~"), ".conan", "profiles", self._target)
